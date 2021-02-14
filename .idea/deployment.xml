@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="shuangrui.chen@tp-ssh1.dep-informatique.u-psud.fr:22 password" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="shuangrui.chen@tp-ssh1.dep-informatique.u-psud.fr:22 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/tp-home007/schen1/BioInfo" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
