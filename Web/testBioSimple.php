@@ -19,7 +19,7 @@
             */
 
             //TODO : Une fois les bases crées grace au parser python, changer le login
-            $connexion = oci_connect('c##pandrie_a', 'pandrie_a', 'dbinfo');
+            $connexion = oci_connect('c##aadamia_a', 'aadamia_a', 'dbinfo');
 
             if (!$connexion){
                 $msg = oci_error();
@@ -34,38 +34,44 @@
             // Deuxième requête : les noms de protéines
             $reqProtName = " select prot_name, name_kind, name_type"
             . " from protein_names pn"
-            . " where pn.prot_name_id = ("
-                . "select prot_name_id from prot_name_2_prot pn2p"
+            . " where pn.prot_name_id in ("
+                . "select distinct prot_name_id from prot_name_2_prot pn2p"
                 . " where pn2p.accession = :acces)";
 
-
+            /*
             if (!empty($protString)){
                 $reqProtName = $reqProtName . " and pn.prot_name like '%" . $protString . "%'";
             }
+            */
 
             // Troisème requête : les noms de gênes
             $reqGeneName = " select gene_name, name_type"
             . " from gene_names gn"
-            . " where gn.gene_name_id = ("
+            . " where gn.gene_name_id in ("
                 . "select gene_name_id from entry_2_gene_name e2gn"
                 . " where e2gn.accession = :acces)";
 
+            /*
             if (!empty($geneString)) {
                 $reqGeneName = $reqGeneName . " and gn.gene_name like '%" . $geneString . "%'";
             }
+            */
 
             // Quatrième requête : commentaire et mots_clés
             // Commentaires:
             $reqComment = " select type_c, txt_c from comments c"
             . " where c.accession = :acces";
 
+
+            /*
             if (!empty($commentString)) {
                 $reqComment = $reqComment . " and c.txt_c like '%" . $commentString . "%'";
             }
+            */
             
             // Keywords
             $reqKw = " select kw_label from keywords kw"
-            . " where kw.kw_id = ("
+            . " where kw.kw_id in ("
                 . " select kw_id from entries_2_keywords e2kw "
                 . " where e2kw.accession = :acces)";
 
@@ -75,10 +81,6 @@
 
 
 
-            // Requete exemple
-            $txtReq = " select dateCreat, dataset "
-            . "from entries e "
-            . "where e.accession = :acces ";
             // Pour débugger on affiche le texte de la requête:
             /*
              echo "<i>(debug : ".$txtReq.")</i><br>";
@@ -92,7 +94,6 @@
             */
 
 
-            $ordre0 = oci_parse($connexion, $txtReq);
             $ordre1 = oci_parse($connexion, $reqSeq);
             $ordre2 = oci_parse($connexion, $reqSpecie);
             $ordre3 = oci_parse($connexion, $reqProtName);
@@ -102,8 +103,9 @@
             $ordre7 = oci_parse($connexion, $reqGO);
 
 
-            $tabOrdre = array($ordre0, $ordre1, $ordre2, $ordre3, $ordre4, $ordre5, $ordre6, $ordre7);
+            $tabOrdre = array($ordre1, $ordre2, $ordre3, $ordre4, $ordre5, $ordre6, $ordre7);
 
+            // On peut associer les variables une a une mais on prefere utiliser une boucle (car toutes les variables (oracle et php) sont les memes)
             /*
             oci_bind_by_name($ordre0, ":acces", $ac);
             oci_bind_by_name($ordre1, ":acces", $ac);
@@ -115,22 +117,16 @@
             oci_bind_by_name($ordre7, ":acces", $ac);
             */
 
+            // Pour chaque requete on associe a la variable acces, l'accession (stocké dans la variable php $ac)
             foreach ($tabOrdre as $ord){
                 oci_bind_by_name($ord, ":acces", $ac);
             }
-            // Exécution des requêtes
-            /*
-            oci_execute($ordre0);
-            while (($row = oci_fetch_array($ordre0, OCI_BOTH)) !=false) {
-                echo '<br> ' . $row[0] . ' ' . $row[1] ;
-            }
-            oci_free_statement($ordre0);
-            */
 
+            // Exécution des requêtes
             oci_execute($ordre1);
             echo '<h5>Information de séquence</h5>';
             while (($row = oci_fetch_array($ordre1, OCI_BOTH)) !=false) {
-                echo 'Accession : ' . $row[0] . ' <br>Sequence : ' . $row[1]
+                echo 'Accession : ' . $row[0] . ' <br>Sequence : ' . $row[1]->load()
                 . '<br> Longueur : ' . $row[2] . ' Masse : ' . $row[3];
             }
             oci_free_statement($ordre1);
@@ -138,6 +134,7 @@
             oci_execute($ordre2);
             echo '<br> <h5> Specie : </h5>';
             while (($row = oci_fetch_array($ordre2, OCI_BOTH)) !=false) {
+                // On fait un lien vers le site du ncbi pour que l'utilisateur puisse acceder aux inforamtions sur l'espece
                 echo '<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='. $row[0] . '">' . $row[0] . '</a>' ;
             }
             oci_free_statement($ordre2);
