@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+        <link rel="icon" type="image/png" href="protein.png"/>
+        <title>Title</title>
+    </head>
+<body>
+<h2>Formulaire</h2>
+<hr/>
+<!-- Notre premier formulaire qui declanche testBioSimple.php, il possède juste une zone de texte pour l'accession et un bouton pour submit la recherche -->
+<form method="post" action="testBioSimple.php">
+    <h4>Accession a trouver :</h4>
+    <input type="text" name="accession"> </input> <br>
+    <input class="hidden-on-advance" type="submit" name="submit" value="envoyer" style="display: inline"> </input>
+    <!-- La zone si dessous provient d'une mauvaise compréhension de l'exercice 3, il sert a faire une recherche avancé
+     Je l'ai laisser car il peut etre pertinant dans des grands bases de donnée de vouloir faire une recherche plus avancé que juste avec un numéro d'accession-->
+<!--
+    <input class="hidden-on-advance" type="button" name="advance" value="Recherche Avancée" onclick="showAdvancedresearch()" style="display: inline"/>
+    <div id="search" style="display: none">
+        Rechercher une chaine de caractère dans l'un des noms du gène <br>
+        <input type="text" name="gene_string"/> <br>
+        Rechercher une chaine de caractère dans l'un des noms de la proteine <br>
+        <input type="text" name="prot_string"/> <br>
+        Rechercher une chaine de caractère dans l'un des noms l'un des commentaires <br>
+        <input type="text" name="comment_string"/> <br>
+        <input type="submit" name="submit" value="envoyer"/>
+    </div>
+    //-->
+</form>
+
+<hr>
+
+<!-- Notre deuxième formulaire à 3 zone de texte pour rechercher les protéines selon une chaine de charactère, apparaissant et/ou dans le nom de gene et/ou dans le nom de protéine et/ou dans un commentaire -->
+<form method="post" action="bioAvance.php">
+	<h4>Rechercher plusieurs entry à partir d'une chaine de caractère</h4> <br><br>
+	Rechercher une chaine de caractère dans l'un des noms du gène <br>
+        <input type="text" name="geneS"/> <br>
+        Rechercher une chaine de caractère dans l'un des noms de la proteine <br>
+        <input type="text" name="protS"/> <br>
+        Rechercher une chaine de caractère dans l'un des noms l'un des commentaires <br>
+        <input type="text" name="commentS"/> <br>
+        <input type="submit" name="submit" value="envoyer"/>
+</form>
+<hr/>
+<!-- Credit -->
+<footer>
+    <p> Made by Shuangrui Chen, Alan Adamiak, Paul Michel dit Ferrer </p>
+</footer>
+
+<script>
+    function showAdvancedresearch(){
+        document.getElementById("search").style.display = "block";
+        const a = document.getElementsByClassName('hidden-on-advance');
+        for(let i =0; i < a.length; i++){
+            a[i].style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
+
