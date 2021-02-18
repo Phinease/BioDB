@@ -54,3 +54,19 @@ tr:nth-child(even) {
 
 
 
+#dbref {
+	display: flex;
+	flex-wrap : wrap;
+	justify-content: space-around;
+}
+
+#dbref > a { 
+	padding : 10px;
+}
+
+
+#seq  {
+	text-align: justify;
+	font-family: 'Cutive Mono', monospace;
+	padding: 0px 18%;
+}

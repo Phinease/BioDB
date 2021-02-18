@@ -2,6 +2,8 @@
 <html lang="fr">
     <head>
         <link rel="stylesheet" href="styles.css" type="text/css" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet"> 
         <link rel="icon" type="image/png" href="protein.png"/>
         <title>Un exemple pour le projet PHP</title>
     </head>
@@ -126,8 +128,8 @@
             oci_execute($ordre1);
             echo '<h5>Information de séquence</h5>';
             while (($row = oci_fetch_array($ordre1, OCI_BOTH)) !=false) {
-                echo 'Accession : ' . $row[0] . ' <br>Sequence : ' . $row[1]->load()
-                . '<br> Longueur : ' . $row[2] . ' Masse : ' . $row[3];
+                echo 'Accession : ' . $row[0] . ' <br>Sequence : <span id="seq"> ' . $row[1]->load()
+                . '</span><br> Longueur : ' . $row[2] . ' Masse : ' . $row[3];
             }
             oci_free_statement($ordre1);
 
@@ -141,16 +143,20 @@
 
             oci_execute($ordre3);
             echo '<h5>Liste des noms de protéines</h5>';
+	    echo '<table> <thead><tr><th>Nom</th><th>Type</th><th>Sorte</th></tr></thead>';
             while (($row = oci_fetch_array($ordre3, OCI_BOTH)) !=false) {
-                echo 'Nom : ' . $row[0] . ' Type : ' . $row[1] . ' Sorte : ' . $row[2];
+                echo '<tr><th>' . $row[0] . '</th><th>' . $row[1] . '</th><th>' . $row[2] . '</th></tr>';
             }
+	    echo '</table>';
             oci_free_statement($ordre3);
 
             oci_execute($ordre4);
             echo '<h5>Liste des noms de gène</h5>';
+            echo '<table> <thead><tr><th>Nom</th><th>Type</th></tr></thead>';
             while (($row = oci_fetch_array($ordre4, OCI_BOTH)) !=false) {
-                echo 'Nom : ' . $row[0] . ' Type : ' . $row[1];
+                echo '<tr><th>' . $row[0] . '</th><th>' . $row[1] . '</th></tr>';
             }
+	    echo '</table>';
             oci_free_statement($ordre4);
 
             oci_execute($ordre5);
@@ -169,13 +175,15 @@
             }
             oci_free_statement($ordre6);
 
+	   
             oci_execute($ordre7);
             echo '<h5> Data Base Reference </h5>';
+	    echo '<div id="dbref">';
             while (($row = oci_fetch_array($ordre7, OCI_BOTH)) !=false) {
-                echo '<a href="https://www.ebi.ac.uk/QuickGO/term/GO:' . $row[0] .'">' . $row[0] . '</a><br>' ;
+                echo '<a href="https://www.ebi.ac.uk/QuickGO/term/' . $row[0] .'">' . $row[0] . '</a><br>' ;
             }
             oci_free_statement($ordre7);
-
+	    echo '</div>';
 
             oci_close($connexion);
 
