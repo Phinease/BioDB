@@ -51,9 +51,9 @@ class Protein:
         if Protein.DEBUG_INSERT_DB:
             curDB.prepare(
                 "INSERT INTO PROTEINS (ACCESSION, SEQ, SEQLENGTH, SEQMASS) "
-                "VALUES (:accession, :seq, :seqlenth, :seqmass) ")
+                "VALUES (:accession, :seq, :seqlength, :seqmass) ")
             curDB.execute(None, {'accession': accession, 'seq': self._seqTxt,
-                                 'seqlenth': self._seqLength, 'seqmass': self._seqMass})
+                                 'seqlength': self._seqLength, 'seqmass': self._seqMass})
 
             # Lien entre protein et protein_name
             if ProtName.DEBUG_INSERT_DB:
@@ -62,5 +62,5 @@ class Protein:
 
                     curDB.prepare(
                         "INSERT INTO PROT_NAME_2_PROT (ACCESSION, PROT_NAME_ID) "
-                        "VALUES (:accession, :protNameId) ")
-                    curDB.execute(None, {'accession': accession, 'protNameId': protNameId})
+                        "VALUES (:accession, :prot_name_id) ")
+                    curDB.execute(None, {'accession': accession, 'prot_name_id': protNameId})

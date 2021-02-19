@@ -7,12 +7,12 @@
         <title>Title</title>
     </head>
 <body>
-<h2>Formulaire</h2>
+<h1>Formulaire</h1>
 <hr/>
 <!-- Notre premier formulaire qui declanche testBioSimple.php, il possède juste une zone de texte pour l'accession et un bouton pour submit la recherche -->
 <form method="post" action="testBioSimple.php">
     <h4>Accession a trouver :</h4>
-    <input type="text" name="accession"> </input> <br>
+    <input type="text" name="accession" placeholder="Accession"> </input> <br>
     <input class="hidden-on-advance" type="submit" name="submit" value="envoyer" style="display: inline"> </input>
     <!-- La zone si dessous provient d'une mauvaise compréhension de l'exercice 3, il sert a faire une recherche avancé
      Je l'ai laisser car il peut etre pertinant dans des grands bases de donnée de vouloir faire une recherche plus avancé que juste avec un numéro d'accession-->
@@ -36,11 +36,11 @@
 <form method="post" action="bioAvance.php">
 	<h4>Rechercher plusieurs entry à partir d'une chaine de caractère</h4> <br><br>
 	Rechercher une chaine de caractère dans l'un des noms du gène <br>
-        <input type="text" name="geneS"/> <br>
+        <input type="text" name="geneS" placeholder="Gène"/> <br>
         Rechercher une chaine de caractère dans l'un des noms de la proteine <br>
-        <input type="text" name="protS"/> <br>
+        <input type="text" name="protS" placeholder="Protéine"/> <br>
         Rechercher une chaine de caractère dans l'un des noms l'un des commentaires <br>
-        <input type="text" name="commentS"/> <br>
+        <input type="text" name="commentS" placeholder="Commentaire"/> <br>
         <input type="submit" name="submit" value="envoyer"/>
 </form>
 <hr/>

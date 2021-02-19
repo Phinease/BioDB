@@ -79,7 +79,7 @@
             // Il faut qu'on recupère l'accession pour que l'utilisateur fasse une recherche precise
             $accession = $row[0];
             // Lien de notre recherche avec la variable accession passé dans l'URL
-            $link = "https://tp-ssh1.dep-informatique.u-psud.fr/~pmiche2/testBioSimple.php?accession=" . $accession;
+            $link = "testBioSimple.php?accession=" . $accession;
             echo '<tr><td><a href="' . $link . '" >' . $row[0] . '</a></td><td>'. $row[1]  .'</td><td>' .$row[2] .  '</td><td>' . $row[3]
                 . '</td><td>'. $row[4] .'</td><td>'. $row[5] . '</td></tr>';
         }
