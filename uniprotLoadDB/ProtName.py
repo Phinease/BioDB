@@ -30,15 +30,20 @@ class ProtName:
     def insertDB(self, curDB):
         prot_name_id = -1
 
+        # Vérifier s'il y a pas de répétition
         curDB.prepare("SELECT PROT_NAME_ID FROM PROTEIN_NAMES "
                       "WHERE PROT_NAME=:prot_name AND NAME_KIND=:name_kind AND NAME_TYPE=:name_type")
         curDB.execute(None, {'prot_name': self._name, 'name_kind': self._name_type, 'name_type': self._name_kind})
         raw = curDB.fetchone()
         if raw is not None:
+            # Si oui, récupérer id
             prot_name_id = raw[0]
         else:
+            # Si non, créer un nouveau
             if ProtName.DEBUG_INSERT_DB:
                 idP = curDB.var(cx_Oracle.NUMBER)
+
+                # Retourner un id de prot_name par la séquance dans la variable id
                 curDB.prepare(
                     "INSERT INTO PROTEIN_NAMES (PROT_NAME_ID, PROT_NAME, NAME_KIND, NAME_TYPE) "
                     "VALUES (SEQ_PROT_NAMES.NEXTVAL, :prot_name, :name_kind, :name_type) "

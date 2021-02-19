@@ -28,15 +28,19 @@ class GeneName:
         gene_name_id = -1
 
         if GeneName.DEBUG_INSERT_DB:
+            # Vérifier s'il y a pas de répétition
             curDB.prepare(
                 "SELECT GENE_NAME_ID FROM GENE_NAMES "
                 "WHERE GENE_NAME=:gene_name AND NAME_TYPE=:name_type")
             curDB.execute(None, {'gene_name': self._name, 'name_type': self._typeN})
             raw = curDB.fetchone()
             if raw is not None:
+                # Si oui, récupérer id
                 gene_name_id = raw[0]
             else:
+                # Si non, créer un nouveau
                 idG = curDB.var(cx_Oracle.NUMBER)
+                # Retourner un id de gene_name par la séquance dans la variable id
                 curDB.prepare(
                     "INSERT INTO GENE_NAMES (GENE_NAME_ID, GENE_NAME, NAME_TYPE) "
                     "VALUES (SEQ_GENE_NAMES.NEXTVAL, :gene_name, :name_type) "
